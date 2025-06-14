@@ -1,0 +1,13 @@
+# Abaikan folder dependensi
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Abaikan file environment yang berisi rahasia
+.env
+backend/.env
+frontend/.env
+
+# File lain-lain
+.DS_Store
+npm-debug.log
