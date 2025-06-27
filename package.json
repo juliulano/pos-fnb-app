@@ -1,0 +1,9 @@
+{
+  "name": "pos-fnb-monorepo-root",
+  "private": true,
+  "scripts": {
+    "dev": "echo \"Run dev in frontend and backend folders separately\"",
+    "build": "cd frontend && npm run build",
+    "install-all": "cd backend && npm install && cd ../frontend && npm install"
+  }
+}
