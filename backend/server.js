@@ -30,18 +30,10 @@ app.get('/', (req, res) => {
 });
 
 
-// --- KONEKSI DATABASE DAN SERVER STARTUP ---
-console.log("Mencoba terhubung ke MongoDB Atlas...");
-
+// --- KONEKSI DATABASE (Vercel akan menanganinya secara otomatis) ---
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("Berhasil terhubung ke MongoDB Atlas!");
-    
-    // HANYA JALANKAN SERVER SETELAH KONEKSI DB BERHASIL
-    app.listen(PORT, () => {
-      console.log(`Server sekarang berjalan di port ${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error("Koneksi ke database gagal. Server tidak dijalankan.", err);
-  });
+  .then(() => console.log("Koneksi ke MongoDB Atlas Siap."))
+  .catch(err => console.error("Koneksi DB Gagal:", err));
+
+// --- EXPORT APP UNTUK VERCEL ---
+module.exports = app;
