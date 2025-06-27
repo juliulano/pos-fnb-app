@@ -4,36 +4,44 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const app = express();
+const PORT = process.env.PORT || 5001;
 
-// Middleware
-app.use(cors());
+// --- Middleware ---
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
-// Koneksi ke Database
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("Berhasil terhubung ke MongoDB"))
-  .catch(err => console.error("Koneksi ke MongoDB gagal:", err));
-
-// --- DAFTARKAN ROUTES DI SINI ---
+// --- Routes ---
 const productsRouter = require('./routes/products');
-app.use('/api/products', productsRouter);
-
-// --- UPDATE TERBARU ---
-const ordersRouter = require('./routes/orders'); // <-- BARIS BARU
-app.use('/api/orders', ordersRouter);
-
+const ordersRouter = require('./routes/orders');
 const reportsRouter = require('./routes/reports');
-app.use('/api/reports', reportsRouter);// <-- BARIS BARU
+const usersRouter = require('./routes/users');
 
+app.use('/api/products', productsRouter);
+app.use('/api/orders', ordersRouter);
+app.use('/api/reports', reportsRouter);
+app.use('/api/users', usersRouter);
 
-// Route dasar untuk pengujian (bisa dihapus nanti)
 app.get('/', (req, res) => {
   res.json({ message: "Selamat datang di API POS F&B!" });
 });
 
-// Menentukan port
-const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server berjalan di port ${PORT}`);
-});
+// --- KONEKSI DATABASE DAN SERVER STARTUP ---
+console.log("Mencoba terhubung ke MongoDB Atlas...");
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("Berhasil terhubung ke MongoDB Atlas!");
+    
+    // HANYA JALANKAN SERVER SETELAH KONEKSI DB BERHASIL
+    app.listen(PORT, () => {
+      console.log(`Server sekarang berjalan di port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error("Koneksi ke database gagal. Server tidak dijalankan.", err);
+  });
