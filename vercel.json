@@ -11,7 +11,7 @@
       "config": { "distDir": "dist" }
     }
   ],
-  // --- GANTI SELURUH BAGIAN "routes" DENGAN INI ---
+  
   "routes": [
     {
       "src": "/api/(.*)",
