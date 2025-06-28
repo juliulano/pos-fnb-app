@@ -11,7 +11,6 @@
       "config": { "distDir": "dist" }
     }
   ],
-  
   "routes": [
     {
       "src": "/api/(.*)",
@@ -19,9 +18,7 @@
     },
     {
       "src": "/assets/(.*)",
-      "headers": {
-        "cache-control": "s-maxage=31536000, immutable"
-      },
+      "headers": { "cache-control": "s-maxage=31536000, immutable" },
       "dest": "/frontend/dist/assets/$1"
     },
     {
